@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思政智教 · 智慧课堂平台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#1a1410;--ink-light:#4a4035;--ink-muted:#8a7e6e;
+  --paper:#f7f3ed;--paper-warm:#f0ebe2;--paper-deep:#e8e0d2;
+  --vermillion:#b8342e;--vermillion-dark:#8c2824;--vermillion-light:#d4544e;
+  --gold:#c49a3c;--gold-light:#e8c868;
+  --jade:#2e7d6b;--jade-light:#4a9e8a;
+  --sidebar-w:260px;--header-h:64px;
+  --radius:8px;--radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(26,20,16,.06);
+  --shadow-md:0 4px 16px rgba(26,20,16,.08);
+  --shadow-lg:0 8px 32px rgba(26,20,16,.12);
+  --transition:all .25s cubic-bezier(.22,1,.36,1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC',system-ui,sans-serif;
+  background:var(--paper);color:var(--ink);
+  line-height:1.7;overflow:hidden;height:100vh;
+}
+h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  position:fixed;left:0;top:0;bottom:0;width:var(--sidebar-w);
+  background:var(--ink);color:var(--paper);
+  display:flex;flex-direction:column;z-index:100;
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.sidebar-brand{
+  padding:28px 24px 20px;border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar-brand h1{
+  font-size:1.35rem;color:var(--gold-light);letter-spacing:.04em;
+  display:flex;align-items:center;gap:10px;
+}
+.sidebar-brand h1 .dot{
+  width:10px;height:10px;border-radius:50%;background:var(--vermillion);
+  animation:pulse-dot 2s ease infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+.sidebar-brand p{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:.06em}
+
+.sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto}
+.nav-section{margin-bottom:24px}
+.nav-section-label{
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;
+  color:rgba(255,255,255,.3);padding:0 12px 8px;font-weight:600;
+}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:var(--radius);cursor:pointer;
+  color:rgba(255,255,255,.6);font-size:.88rem;font-weight:500;
+  transition:var(--transition);position:relative;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.9)}
+.nav-item.active{
+  background:rgba(184,52,46,.15);color:var(--vermillion-light);
+}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:20px;background:var(--vermillion);border-radius:0 2px 2px 0;
+}
+.nav-icon{font-size:1.15rem;width:24px;text-align:center;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;font-size:.7rem;padding:2px 8px;border-radius:10px;
+  background:var(--vermillion);color:#fff;font-weight:600;
+}
+
+.sidebar-footer{
+  padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;gap:12px;
+}
+.avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--vermillion),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sidebar-footer-info{flex:1;min-width:0}
+.sidebar-footer-name{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.9)}
+.sidebar-footer-role{font-size:.72rem;color:rgba(255,255,255,.4)}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:var(--sidebar-w);height:100vh;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.topbar{
+  height:var(--header-h);padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(247,243,237,.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--paper-deep);flex-shrink:0;z-index:50;
+}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar-title{font-size:1.15rem;font-weight:700;font-family:'Noto Serif SC',serif}
+.topbar-sub{font-size:.78rem;color:var(--ink-muted)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-btn{
+  padding:8px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:var(--transition);border:none;font-family:inherit;
+}
+.topbar-btn.ghost{background:transparent;color:var(--ink-light);border:1px solid var(--paper-deep)}
+.topbar-btn.ghost:hover{background:var(--paper-warm);border-color:var(--ink-muted)}
+.topbar-btn.primary{background:var(--vermillion);color:#fff}
+.topbar-btn.primary:hover{background:var(--vermillion-dark)}
+
+.content{flex:1;overflow-y:auto;padding:28px 32px 40px}
+
+/* ===== PAGE VIEWS ===== */
+.page{display:none;animation:fadeUp .4s cubic-bezier(.22,1,.36,1)}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== DASHBOARD ===== */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{
+  padding:22px 24px;border-radius:var(--radius-lg);
+  background:#fff;border:1px solid var(--paper-deep);
+  transition:var(--transition);
+}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-label{font-size:.78rem;color:var(--ink-muted);font-weight:500;margin-bottom:6px}
+.stat-value{font-size:1.8rem;font-weight:900;font-family:'Noto Serif SC',serif;line-height:1.2}
+.stat-value.red{color:var(--vermillion)}
+.stat-value.gold{color:var(--gold)}
+.stat-value.jade{color:var(--jade)}
+.stat-change{font-size:.72rem;margin-top:4px;font-weight:500}
+.stat-change.up{color:var(--jade)}
+.stat-change.down{color:var(--vermillion)}
+
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;
+}
+.section-title{
+  font-size:1.1rem;font-weight:700;font-family:'Noto Serif SC',serif;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title .accent{color:var(--vermillion)}
+
+.timeline{position:relative;padding-left:28px}
+.timeline::before{
+  content:'';position:absolute;left:8px;top:0;bottom:0;
+  width:2px;background:var(--paper-deep);
+}
+.timeline-item{
+  position:relative;padding:14px 0 22px;
+}
+.timeline-item::before{
+  content:'';position:absolute;left:-24px;top:20px;
+  width:12px;height:12px;border-radius:50%;
+  border:2px solid var(--paper-deep);background:var(--paper);
+}
+.timeline-item.current::before{background:var(--vermillion);border-color:var(--vermillion)}
+.timeline-item.done::before{background:var(--jade);border-color:var(--jade)}
+.timeline-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius);
+  padding:16px 20px;transition:var(--transition);cursor:pointer;
+}
+.timeline-card:hover{box-shadow:var(--shadow-sm);border-color:var(--ink-muted)}
+.timeline-card h4{font-size:.92rem;margin-bottom:4px}
+.timeline-card p{font-size:.8rem;color:var(--ink-muted)}
+.timeline-meta{
+  display:flex;gap:16px;margin-top:8px;font-size:.72rem;color:var(--ink-muted);
+}
+.timeline-meta span{display:flex;align-items:center;gap:4px}
+
+/* ===== PRE-CLASS ===== */
+.materials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:18px}
+.material-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius-lg);
+  overflow:hidden;transition:var(--transition);cursor:pointer;
+}
+.material-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.material-thumb{
+  height:160px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.material-thumb.text{background:linear-gradient(135deg,#f5e6d3,#e8d5be)}
+.material-thumb.video{background:linear-gradient(135deg,#2c3e50,#3d566e)}
+.material-thumb.audio{background:linear-gradient(135deg,#1a3a2a,#2e5e45)}
+.material-thumb .icon{font-size:3rem;opacity:.7}
+.material-thumb .play-btn{
+  position:absolute;width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;box-shadow:var(--shadow-md);
+  transition:var(--transition);
+}
+.material-card:hover .play-btn{transform:scale(1.1)}
+.material-type{
+  position:absolute;top:12px;right:12px;
+  padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;
+  background:rgba(0,0,0,.5);color:#fff;backdrop-filter:blur(4px);
+}
+.material-body{padding:16px 20px}
+.material-body h4{font-size:.95rem;margin-bottom:4px}
+.material-body p{font-size:.78rem;color:var(--ink-muted);line-height:1.5}
+.material-footer{
+  padding:10px 20px;border-top:1px solid var(--paper-deep);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.72rem;color:var(--ink-muted);
+}
+.material-footer .status{display:flex;align-items:center;gap:4px}
+.status-dot{width:6px;height:6px;border-radius:50%}
+.status-dot.green{background:var(--jade)}
+.status-dot.yellow{background:var(--gold)}
+
+/* Upload Area */
+.upload-zone{
+  border:2px dashed var(--paper-deep);border-radius:var(--radius-lg);
+  padding:40px;text-align:center;cursor:pointer;transition:var(--transition);
+  background:rgba(255,255,255,.5);
+}
+.upload-zone:hover{border-color:var(--vermillion);background:rgba(184,52,46,.02)}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:12px;opacity:.5}
+.upload-zone h3{font-size:1rem;margin-bottom:4px}
+.upload-zone p{font-size:.78rem;color:var(--ink-muted)}
+
+/* ===== IN-CLASS ===== */
+.classroom-layout{display:grid;grid-template-columns:1fr 340px;gap:24px;height:calc(100vh - var(--header-h) - 56px)}
+.question-panel{display:flex;flex-direction:column;gap:20px}
+.question-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius-lg);
+  padding:24px;position:relative;overflow:hidden;
+}
+.question-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--vermillion);
+}
+.question-card h3{font-size:1rem;margin-bottom:12px;padding-left:16px}
+.question-text{
+  font-size:1.05rem;line-height:1.8;padding:16px;
+  background:var(--paper);border-radius:var(--radius);
+  font-family:'Noto Serif SC',serif;margin-bottom:16px;
+}
+.question-options{display:flex;flex-direction:column;gap:10px;padding-left:16px}
+.option-btn{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:var(--radius);
+  border:1.5px solid var(--paper-deep);background:#fff;
+  cursor:pointer;transition:var(--transition);font-size:.9rem;
+  font-family:inherit;
+}
+.option-btn:hover{border-color:var(--vermillion);background:rgba(184,52,46,.03)}
+.option-btn.selected{border-color:var(--vermillion);background:rgba(184,52,46,.06)}
+.option-btn .key{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--paper-deep);display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.8rem;flex-shrink:0;
+  transition:var(--transition);
+}
+.option-btn.selected .key{background:var(--vermillion);color:#fff}
+.option-btn.correct{border-color:var(--jade);background:rgba(46,125,107,.06)}
+.option-btn.correct .key{background:var(--jade);color:#fff}
+.option-btn.wrong{border-color:var(--vermillion);background:rgba(184,52,46,.04)}
+
+.question-actions{
+  display:flex;gap:10px;padding-left:16px;margin-top:8px;
+}
+.q-btn{
+  padding:10px 20px;border-radius:var(--radius);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:var(--transition);border:none;font-family:inherit;
+}
+.q-btn.primary{background:var(--vermillion);color:#fff}
+.q-btn.primary:hover{background:var(--vermillion-dark)}
+.q-btn.outline{background:transparent;color:var(--ink-light);border:1.5px solid var(--paper-deep)}
+.q-btn.outline:hover{border-color:var(--ink-muted)}
+
+/* Analysis Panel */
+.analysis-panel{
+  display:flex;flex-direction:column;gap:16px;
+}
+.analysis-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius-lg);
+  padding:20px;
+}
+.analysis-card h4{
+  font-size:.88rem;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{font-size:.8rem;width:28px;text-align:center;font-weight:600;flex-shrink:0}
+.bar-track{flex:1;height:28px;background:var(--paper);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{
+  height:100%;border-radius:6px;transition:width .8s cubic-bezier(.22,1,.36,1);
+  display:flex;align-items:center;padding-left:10px;
+  font-size:.72rem;font-weight:600;color:#fff;min-width:fit-content;
+}
+.bar-fill.opt-a{background:var(--vermillion)}
+.bar-fill.opt-b{background:var(--gold)}
+.bar-fill.opt-c{background:var(--jade)}
+.bar-fill.opt-d{background:var(--ink-light)}
+.bar-count{font-size:.78rem;color:var(--ink-muted);width:36px;text-align:right;flex-shrink:0}
+
+.live-indicator{
+  display:flex;align-items:center;gap:8px;
+  font-size:.78rem;font-weight:600;color:var(--vermillion);
+}
+.live-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--vermillion);
+  animation:pulse-dot 1.2s ease infinite;
+}
+.student-count{
+  font-size:.78rem;color:var(--ink-muted);
+  display:flex;align-items:center;gap:6px;
+}
+
+/* AI Insight */
+.ai-insight{
+  background:linear-gradient(135deg,rgba(196,154,60,.06),rgba(184,52,46,.04));
+  border:1px solid rgba(196,154,60,.2);border-radius:var(--radius-lg);
+  padding:18px 20px;
+}
+.ai-insight .ai-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+  font-size:.82rem;font-weight:600;color:var(--gold);
+}
+.ai-insight .ai-avatar{
+  width:24px;height:24px;border-radius:6px;
+  background:linear-gradient(135deg,var(--gold),var(--vermillion));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;color:#fff;
+}
+.ai-insight p{font-size:.82rem;line-height:1.7;color:var(--ink-light)}
+
+/* ===== POST-CLASS ===== */
+.task-list{display:flex;flex-direction:column;gap:16px;margin-top:18px}
+.task-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius-lg);
+  padding:22px 24px;transition:var(--transition);
+}
+.task-card:hover{box-shadow:var(--shadow-sm)}
+.task-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.task-top h3{font-size:1rem}
+.task-tag{
+  padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;
+}
+.task-tag.active{background:rgba(184,52,46,.1);color:var(--vermillion)}
+.task-tag.closed{background:rgba(138,126,110,.1);color:var(--ink-muted)}
+.task-desc{font-size:.85rem;color:var(--ink-light);line-height:1.6;margin-bottom:14px}
+.task-stats{display:flex;gap:24px;margin-bottom:14px}
+.task-stat{display:flex;flex-direction:column}
+.task-stat .val{font-size:1.3rem;font-weight:900;font-family:'Noto Serif SC',serif}
+.task-stat .label{font-size:.72rem;color:var(--ink-muted)}
+.task-progress{
+  height:6px;background:var(--paper);border-radius:3px;overflow:hidden;
+}
+.task-progress-bar{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--vermillion),var(--gold));
+  transition:width .6s cubic-bezier(.22,1,.36,1);
+}
+.task-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;padding-top:14px;border-top:1px solid var(--paper-deep);
+}
+.task-deadline{font-size:.78rem;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.task-action{
+  padding:7px 16px;border-radius:var(--radius);font-size:.8rem;font-weight:600;
+  cursor:pointer;border:1.5px solid var(--vermillion);color:var(--vermillion);
+  background:transparent;font-family:inherit;transition:var(--transition);
+}
+.task-action:hover{background:var(--vermillion);color:#fff}
+
+/* Works Gallery */
+.works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:18px}
+.work-card{
+  background:#fff;border:1px solid var(--paper-deep);border-radius:var(--radius-lg);
+  overflow:hidden;transition:var(--transition);cursor:pointer;
+}
+.work-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.work-preview{
+  height:140px;background:var(--paper-warm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;position:relative;
+}
+.work-score{
+  position:absolute;top:10px;right:10px;
+  padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;
+  background:rgba(255,255,255,.95);color:var(--vermillion);
+  box-shadow:var(--shadow-sm);
+}
+.work-body{padding:14px 16px}
+.work-body h4{font-size:.88rem;margin-bottom:4px}
+.work-body p{font-size:.72rem;color:var(--ink-muted)}
+.work-author{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;border-top:1px solid var(--paper-deep);
+  font-size:.75rem;color:var(--ink-muted);
+}
+.work-author .mini-avatar{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--paper-deep);font-size:.6rem;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--ink-light);
+}
+
+/* ===== AI CHAT ===== */
+.ai-fab{
+  position:fixed;bottom:28px;right:28px;width:56px;height:56px;
+  border-radius:50%;border:none;cursor:pointer;z-index:200;
+  background:linear-gradient(135deg,var(--gold),var(--vermillion));
+  color:#fff;font-size:1.4rem;
+  box-shadow:0 4px 20px rgba(184,52,46,.3);
+  transition:var(--transition);display:flex;align-items:center;justify-content:center;
+}
+.ai-fab:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(184,52,46,.4)}
+.ai-fab .fab-label{
+  position:absolute;bottom:calc(100% + 8px);right:0;
+  white-space:nowrap;font-size:.72rem;font-weight:600;
+  background:var(--ink);color:var(--paper);padding:4px 10px;border-radius:6px;
+  opacity:0;pointer-events:none;transition:var(--transition);
+}
+.ai-fab:hover .fab-label{opacity:1}
+
+.ai-panel{
+  position:fixed;right:-420px;top:0;bottom:0;width:400px;
+  background:var(--paper);border-left:1px solid var(--paper-deep);
+  z-index:300;display:flex;flex-direction:column;
+  transition:right .35s cubic-bezier(.22,1,.36,1);
+  box-shadow:-8px 0 32px rgba(0,0,0,.08);
+}
+.ai-panel.open{right:0}
+.ai-panel-header{
+  padding:20px 24px;border-bottom:1px solid var(--paper-deep);
+  display:flex;align-items:center;gap:14px;background:#fff;
+}
+.ai-panel-avatar{
+  width:40px;height:40px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold),var(--vermillion));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:#fff;
+}
+.ai-panel-info h3{font-size:.95rem;font-weight:700}
+.ai-panel-info p{font-size:.72rem;color:var(--ink-muted)}
+.ai-panel-close{
+  margin-left:auto;background:none;border:none;cursor:pointer;
+  font-size:1.2rem;color:var(--ink-muted);padding:8px;
+  transition:var(--transition);
+}
+.ai-panel-close:hover{color:var(--ink)}
+
+.ai-messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+.ai-msg{display:flex;gap:10px;max-width:90%}
+.ai-msg.bot{align-self:flex-start}
+.ai-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.ai-msg .msg-avatar{
+  width:28px;height:28px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;
+}
+.ai-msg.bot .msg-avatar{background:linear-gradient(135deg,var(--gold),var(--vermillion));color:#fff}
+.ai-msg.user .msg-avatar{background:var(--ink);color:var(--paper)}
+.ai-msg .bubble{
+  padding:12px 16px;border-radius:14px;font-size:.85rem;line-height:1.6;
+}
+.ai-msg.bot .bubble{background:#fff;border:1px solid var(--paper-deep);border-top-left-radius:4px}
+.ai-msg.user .bubble{background:var(--vermillion);color:#fff;border-top-right-radius:4px}
+
+.ai-typing{display:flex;gap:4px;padding:4px 0}
+.ai-typing span{
+  width:6px;height:6px;border-radius:50%;background:var(--ink-muted);
+  animation:typing-bounce .6s ease infinite;
+}
+.ai-typing span:nth-child(2){animation-delay:.15s}
+.ai-typing span:nth-child(3){animation-delay:.3s}
+@keyframes typing-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+.ai-input-area{
+  padding:16px 24px;border-top:1px solid var(--paper-deep);
+  display:flex;gap:10px;background:#fff;
+}
+.ai-input{
+  flex:1;padding:10px 16px;border-radius:var(--radius);
+  border:1.5px solid var(--paper-deep);font-size:.85rem;
+  font-family:inherit;background:var(--paper);
+  transition:var(--transition);outline:none;
+}
+.ai-input:focus{border-color:var(--gold);background:#fff}
+.ai-send{
+  width:40px;height:40px;border-radius:var(--radius);border:none;
+  background:var(--vermillion);color:#fff;cursor:pointer;
+  font-size:1rem;transition:var(--transition);flex-shrink:0;
+}
+.ai-send:hover{background:var(--vermillion-dark)}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,20,16,.4);
+  backdrop-filter:blur(4px);z-index:400;
+  display:none;align-items:center;justify-content:center;
+  animation:fadeIn .2s ease;
+}
+.modal-overlay.show{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--paper);border-radius:var(--radius-lg);
+  width:90%;max-width:560px;max-height:85vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);animation:slideUp .3s cubic-bezier(.22,1,.36,1);
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{
+  padding:24px 28px 0;display:flex;align-items:center;justify-content:space-between;
+}
+.modal-header h2{font-size:1.15rem}
+.modal-close{
+  background:none;border:none;font-size:1.2rem;cursor:pointer;
+  color:var(--ink-muted);padding:8px;transition:var(--transition);
+}
+.modal-close:hover{color:var(--ink)}
+.modal-body{padding:20px 28px 28px}
+
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:.82rem;font-weight:600;margin-bottom:6px;color:var(--ink-light)}
+.form-input,.form-textarea,.form-select{
+  width:100%;padding:10px 14px;border-radius:var(--radius);
+  border:1.5px solid var(--paper-deep);font-size:.88rem;
+  font-family:inherit;background:#fff;transition:var(--transition);outline:none;
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--vermillion)}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .classroom-layout{grid-template-columns:1fr}
+  .analysis-panel{order:-1}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .main{margin-left:0}
+  .content{padding:20px 16px}
+  .stats-row{grid-template-columns:1fr}
+  .materials-grid{grid-template-columns:1fr}
+  .works-grid{grid-template-columns:1fr}
+  .ai-panel{width:100%;right:-100%}
+  .mobile-menu-btn{display:flex !important}
+}
+.mobile-menu-btn{
+  display:none;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:var(--radius);
+  background:transparent;border:1px solid var(--paper-deep);
+  cursor:pointer;font-size:1.1rem;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--paper-deep);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-muted)}
+
+/* Empty state */
+.empty-state{
+  text-align:center;padding:60px 20px;color:var(--ink-muted);
+}
+.empty-state .icon{font-size:3rem;margin-bottom:16px;opacity:.4}
+.empty-state h3{font-size:1rem;margin-bottom:6px;color:var(--ink-light)}
+.empty-state p{font-size:.82rem}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <h1><span class="dot"></span>思政智教</h1>
+    <p>AI 赋能思政课堂</p>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-label">教学管理</div>
+      <div class="nav-item active" data-page="dashboard" onclick="switchPage('dashboard')">
+        <span class="nav-icon">📊</span>教学概览
+      </div>
+      <div class="nav-item" data-page="preclass" onclick="switchPage('preclass')">
+        <span class="nav-icon">📚</span>课前资料
+        <span class="nav-badge">3</span>
+      </div>
+      <div class="nav-item" data-page="inclass" onclick="switchPage('inclass')">
+        <span class="nav-icon">🎯</span>课堂互动
+      </div>
+      <div class="nav-item" data-page="postclass" onclick="switchPage('postclass')">
+        <span class="nav-icon">📝</span>课后任务
+        <span class="nav-badge">2</span>
+      </div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">数据与分析</div>
+      <div class="nav-item" data-page="works" onclick="switchPage('works')">
+        <span class="nav-icon">🏆</span>学生作品
+      </div>
+      <div class="nav-item" data-page="analysis" onclick="switchPage('analysis')">
+        <span class="nav-icon">📈</span>学情分析
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="avatar">陈</div>
+    <div class="sidebar-footer-info">
+      <div class="sidebar-footer-name">陈老师</div>
+      <div class="sidebar-footer-role">马克思主义学院</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('mobile-open')">☰</button>
+      <div>
+        <div class="topbar-title" id="pageTitle">教学概览</div>
+        <div class="topbar-sub" id="pageSub">2026年秋季学期 · 毛泽东思想和中国特色社会主义理论体系概论</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn ghost" onclick="openModal('publish')">＋ 发布内容</button>
+      <button class="topbar-btn primary" onclick="toggleAI()">🐴 湘小马</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">已发布资料</div>
+          <div class="stat-value red">12</div>
+          <div class="stat-change up">↑ 本周新增 3 份</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">课堂互动次数</div>
+          <div class="stat-value gold">48</div>
+          <div class="stat-change up">↑ 较上周 +22%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">任务完成率</div>
+          <div class="stat-value jade">87%</div>
+          <div class="stat-change up">↑ 较上周 +5%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">活跃学生</div>
+          <div class="stat-value" style="color:var(--ink)">156</div>
+          <div class="stat-change">共 168 人</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">📋 <span class="accent">教学日程</span></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item done">
+          <div class="timeline-card">
+            <h4>第一讲：马克思主义中国化的历史进程</h4>
+            <p>已完成课堂互动与课后任务收集</p>
+            <div class="timeline-meta">
+              <span>📅 9月2日（周二）</span><span>👥 168人参与</span><span>✅ 已结束</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item done">
+          <div class="timeline-card">
+            <h4>第二讲：毛泽东思想的形成和发展</h4>
+            <p>已完成课堂互动与课后任务收集</p>
+            <div class="timeline-meta">
+              <span>📅 9月4日（周四）</span><span>👥 165人参与</span><span>✅ 已结束</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item current">
+          <div class="timeline-card">
+            <h4>第三讲：新民主主义革命理论</h4>
+            <p>课前资料已发布，课堂互动待开始</p>
+            <div class="timeline-meta">
+              <span>📅 9月9日（周二）· 今日</span><span>📚 3份资料已发布</span><span style="color:var(--vermillion)">🔴 待上课</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-card">
+            <h4>第四讲：社会主义改造理论</h4>
+            <p>待发布课前资料</p>
+            <div class="timeline-meta">
+              <span>📅 9月11日（周四）</span><span>⏳ 未开始</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PRE-CLASS ===== -->
+    <div class="page" id="page-preclass">
+      <div class="section-header">
+        <div class="section-title">📚 <span class="accent">课前学习资料</span> · 第三讲：新民主主义革命理论</div>
+        <button class="topbar-btn primary" onclick="openModal('material')">＋ 上传资料</button>
+      </div>
+
+      <div class="upload-zone" onclick="openModal('material')">
+        <div class="icon">📤</div>
+        <h3>拖拽文件到此处或点击上传</h3>
+        <p>支持 PDF、Word、PPT、MP4、MP3 等格式 · 单文件最大 200MB</p>
+      </div>
+
+      <div class="materials-grid">
+        <div class="material-card" onclick="openModal('preview-text')">
+          <div class="material-thumb text">
+            <span class="icon">📄</span>
+            <span class="material-type">文本</span>
+          </div>
+          <div class="material-body">
+            <h4>新民主主义革命理论的形成背景</h4>
+            <p>详细介绍近代中国社会性质与主要矛盾，阐述新民主主义革命理论的历史必然性。</p>
+          </div>
+          <div class="material-footer">
+            <div class="status"><span class="status-dot green"></span> 已发布</div>
+            <span>156人已读 · 平均阅读 12分钟</span>
+          </div>
+        </div>
+
+        <div class="material-card" onclick="openModal('preview-video')">
+          <div class="material-thumb video">
+            <span class="play-btn">▶</span>
+            <span class="material-type">视频</span>
+          </div>
+          <div class="material-body">
+            <h4>纪录片：《百年风华》第三集</h4>
+            <p>通过珍贵历史影像，回顾新民主主义革命时期的伟大历程与关键转折。</p>
+          </div>
+          <div class="material-footer">
+            <div class="status"><span class="status-dot green"></span> 已发布</div>
+            <span>142人已看 · 时长 28分钟</span>
+          </div>
+        </div>
+
+        <div class="material-card" onclick="openModal('preview-audio')">
+          <div class="material-thumb audio">
+            <span class="icon" style="color:rgba(255,255,255,.7)">🎧</span>
+            <span class="material-type">音频</span>
+          </div>
+          <div class="material-body">
+            <h4>经典诵读：《论人民民主专政》节选</h4>
+            <p>毛泽东同志经典著作的有声朗读，配合注释与背景解析。</p>
+          </div>
+          <div class="material-footer">
+            <div class="status"><span class="status-dot yellow"></span> 部分已读</div>
+            <span>98人已听 · 时长 15分钟</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== IN-CLASS ===== -->
+    <div class="page" id="page-inclass">
+      <div class="section-header">
+        <div class="section-title">🎯 <span class="accent">课堂互动</span> · 第三讲</div>
+        <div class="live-indicator"><span class="live-dot"></span> 实时互动中</div>
+      </div>
+
+      <div class="classroom-layout">
+        <div class="question-panel">
+          <!-- Question 1 -->
+          <div class="question-card" id="q1">
+            <h3>问题一 · 概念理解</h3>
+            <div class="question-text">
+              新民主主义革命的三大法宝是什么？请从统一战线、武装斗争、党的建设三个维度，结合具体历史事件说明其内在联系。
+            </div>
+            <div class="question-options">
+              <button class="option-btn" onclick="selectOption(this,'q1')">
+                <span class="key">A</span>统一战线、土地革命、根据地建设
+              </button>
+              <button class="option-btn correct" onclick="selectOption(this,'q1')">
+                <span class="key">B</span>统一战线、武装斗争、党的建设
+              </button>
+              <button class="option-btn" onclick="selectOption(this,'q1')">
+                <span class="key">C</span>群众路线、实事求是、独立自主
+              </button>
+              <button class="option-btn" onclick="selectOption(this,'q1')">
+                <span class="key">D</span>理论联系实际、密切联系群众、批评与自我批评
+              </button>
+            </div>
+            <div class="question-actions">
+              <button class="q-btn primary" onclick="submitAnswer('q1')">提交答案</button>
+              <button class="q-btn outline" onclick="showAnalysis('q1')">查看分析</button>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="question-card" id="q2">
+            <h3>问题二 · 深度思考</h3>
+            <div class="question-text">
+              结合当前国际形势，谈谈你对"新民主主义革命理论对当代中国外交的启示"的理解。请用 200 字以内阐述你的观点。
+            </div>
+            <textarea class="form-textarea" placeholder="请在此输入你的回答..." style="margin:0 16px;width:calc(100% - 32px)"></textarea>
+            <div class="question-actions">
+              <button class="q-btn primary" onclick="submitAnswer('q2')">提交回答</button>
+              <button class="q-btn outline" onclick="showAnalysis('q2')">AI 分析</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Sidebar -->
+        <div class="analysis-panel">
+          <div class="student-count">
+            <span>👥</span> 在线学生：<strong>156 / 168</strong>
+          </div>
+
+          <div class="analysis-card">
+            <h4>📊 实时答题分布</h4>
+            <div class="bar-chart" id="liveChart">
+              <div class="bar-row">
+                <span class="bar-label">A</span>
+                <div class="bar-track"><div class="bar-fill opt-a" style="width:18%">18%</div></div>
+                <span class="bar-count">28人</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">B</span>
+                <div class="bar-track"><div class="bar-fill opt-b" style="width:62%">62%</div></div>
+                <span class="bar-count">97人</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">C</span>
+                <div class="bar-track"><div class="bar-fill opt-c" style="width:12%">12%</div></div>
+                <span class="bar-count">19人</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">D</span>
+                <div class="bar-track"><div class="bar-fill opt-d" style="width:8%">8%</div></div>
+                <span class="bar-count">12人</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-insight">
+            <div class="ai-header">
+              <div class="ai-avatar">🐴</div>
+              湘小马 · 学情洞察
+            </div>
+            <p><strong>分析结论：</strong>62% 的同学选择了正确答案 B（统一战线、武装斗争、党的建设），说明多数同学对核心概念掌握较好。但仍有 18% 的同学混淆了"三大法宝"与"工农武装割据"的内容（选项 A），建议课堂上重点辨析两者的区别。选项 C 和 D 分别涉及毛泽东思想活的灵魂和党的三大优良作风，属于高频混淆知识点。</p>
+          </div>
+
+          <div class="analysis-card">
+            <h4>⏱ 答题时间分布</h4>
+            <div style="display:flex;align-items:end;gap:4px;height:80px;padding:8px 0">
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:15%;opacity:.3"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:40%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:85%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:100%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:65%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:30%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:12%"></div>
+              <div style="flex:1;background:var(--vermillion);border-radius:3px 3px 0 0;height:5%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--ink-muted)">
+              <span>0-30s</span><span>30-60s</span><span>1-2min</span><span>2-3min</span>
+            </div>
+            <p style="font-size:.75rem;color:var(--ink-muted);margin-top:8px">大部分学生在 1-2 分钟内完成作答，思考时间合理。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== POST-CLASS ===== -->
+    <div class="page" id="page-postclass">
+      <div class="section-header">
+        <div class="section-title">📝 <span class="accent">课后任务</span></div>
+        <button class="topbar-btn primary" onclick="openModal('task')">＋ 发布任务</button>
+      </div>
+
+      <div class="task-list">
+        <div class="task-card">
+          <div class="task-top">
+            <h3>实践报告：走访红色教育基地</h3>
+            <span class="task-tag active">进行中</span>
+          </div>
+          <div class="task-desc">
+            选择一处本地红色教育基地进行实地走访，撰写 1500 字以上的实践报告，要求结合课堂所学的新民主主义革命理论，分析该基地的历史意义与当代价值。附至少 3 张现场照片。
+          </div>
+          <div class="task-stats">
+            <div class="task-stat">
+              <span class="val" style="color:var(--jade)">128</span>
+              <span class="label">已提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--gold)">24</span>
+              <span class="label">未提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--vermillion)">16</span>
+              <span class="label">已批改</span>
+            </div>
+          </div>
+          <div class="task-progress">
+            <div class="task-progress-bar" style="width:76%"></div>
+          </div>
+          <div class="task-footer">
+            <span class="task-deadline">⏰ 截止：2026年9月16日 23:59</span>
+            <button class="task-action" onclick="switchPage('works')">查看作品 →</button>
+          </div>
+        </div>
+
+        <div class="task-card">
+          <div class="task-top">
+            <h3>小组研讨：新民主主义革命的当代启示</h3>
+            <span class="task-tag active">进行中</span>
+          </div>
+          <div class="task-desc">
+            以小组为单位（4-5人），围绕"新民主主义革命理论对解决当代社会问题的启示"展开研讨，形成小组观点报告，并录制 5 分钟以内的研讨视频。
+          </div>
+          <div class="task-stats">
+            <div class="task-stat">
+              <span class="val" style="color:var(--jade)">28</span>
+              <span class="label">已提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--gold)">6</span>
+              <span class="label">未提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--vermillion)">8</span>
+              <span class="label">已批改</span>
+            </div>
+          </div>
+          <div class="task-progress">
+            <div class="task-progress-bar" style="width:82%"></div>
+          </div>
+          <div class="task-footer">
+            <span class="task-deadline">⏰ 截止：2026年9月18日 23:59</span>
+            <button class="task-action" onclick="switchPage('works')">查看作品 →</button>
+          </div>
+        </div>
+
+        <div class="task-card" style="opacity:.7">
+          <div class="task-top">
+            <h3>课后思考题：第一、二讲复习</h3>
+            <span class="task-tag closed">已截止</span>
+          </div>
+          <div class="task-desc">
+            回顾第一讲和第二讲的核心内容，完成 5 道思考题，巩固马克思主义中国化的基本概念。
+          </div>
+          <div class="task-stats">
+            <div class="task-stat">
+              <span class="val" style="color:var(--jade)">162</span>
+              <span class="label">已提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--ink-muted)">6</span>
+              <span class="label">未提交</span>
+            </div>
+            <div class="task-stat">
+              <span class="val" style="color:var(--vermillion)">162</span>
+              <span class="label">已批改</span>
+            </div>
+          </div>
+          <div class="task-progress">
+            <div class="task-progress-bar" style="width:96%"></div>
+          </div>
+          <div class="task-footer">
+            <span class="task-deadline">⏰ 已于 9月7日 截止</span>
+            <button class="task-action">查看报告</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== WORKS ===== -->
+    <div class="page" id="page-works">
+      <div class="section-header">
+        <div class="section-title">🏆 <span class="accent">学生作品</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="topbar-btn ghost" style="font-size:.78rem">全部</button>
+          <button class="topbar-btn ghost" style="font-size:.78rem">实践报告</button>
+          <button class="topbar-btn ghost" style="font-size:.78rem">研讨视频</button>
+        </div>
+      </div>
+
+      <div class="works-grid">
+        <div class="work-card">
+          <div class="work-preview" style="background:linear-gradient(135deg,#f5e6d3,#e8d5be)">📄<span class="work-score">95分</span></div>
+          <div class="work-body">
+            <h4>韶山冲红色基地走访报告</h4>
+            <p>深入分析了毛泽东同志故居的历史意义...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">李</div>李明辉 · 9月8日提交</div>
+        </div>
+        <div class="work-card">
+          <div class="work-preview" style="background:linear-gradient(135deg,#2c3e50,#3d566e)">🎬<span class="work-score">92分</span></div>
+          <div class="work-body">
+            <h4>小组研讨：从延安精神看当代青年担当</h4>
+            <p>第三小组 5 分钟研讨视频，观点鲜明...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">王</div>王思雨（组长）· 9月7日提交</div>
+        </div>
+        <div class="work-card">
+          <div class="work-preview" style="background:linear-gradient(135deg,#1a3a2a,#2e5e45)">📄<span class="work-score">88分</span></div>
+          <div class="work-body">
+            <h4>遵义会议会址实地调研报告</h4>
+            <p>结合新民主主义革命转折点进行分析...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">张</div>张文博 · 9月8日提交</div>
+        </div>
+        <div class="work-card">
+          <div class="work-preview" style="background:linear-gradient(135deg,#f5e6d3,#e8d5be)">📄<span class="work-score">90分</span></div>
+          <div class="work-body">
+            <h4>井冈山革命根据地走访感悟</h4>
+            <p>从工农武装割据理论出发，分析井冈山...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">刘</div>刘佳怡 · 9月7日提交</div>
+        </div>
+        <div class="work-card">
+          <div class="work-preview" style="background:linear-gradient(135deg,#2c3e50,#3d566e)">🎬<span class="work-score">94分</span></div>
+          <div class="work-body">
+            <h4>小组研讨：统一战线思想的现代价值</h4>
+            <p>第一小组 4 分钟研讨视频，论证充分...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">赵</div>赵一鸣（组长）· 9月6日提交</div>
+        </div>
+        <div class="work-card" style="opacity:.5">
+          <div class="work-preview" style="background:var(--paper-deep)">⏳</div>
+          <div class="work-body">
+            <h4>待批改作品</h4>
+            <p>还有 112 份实践报告待批改...</p>
+          </div>
+          <div class="work-author"><div class="mini-avatar">···</div>点击进入批改模式</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ANALYSIS ===== -->
+    <div class="page" id="page-analysis">
+      <div class="section-header">
+        <div class="section-title">📈 <span class="accent">学情分析报告</span></div>
+        <button class="topbar-btn ghost">导出报告</button>
+      </div>
+
+      <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stat-card">
+          <div class="stat-label">课堂参与度</div>
+          <div class="stat-value red">92%</div>
+          <div class="stat-change up">↑ 较第一讲 +8%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">平均正确率</div>
+          <div class="stat-value gold">78%</div>
+          <div class="stat-change up">↑ 较第一讲 +12%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">课后任务完成率</div>
+          <div class="stat-value jade">87%</div>
+          <div class="stat-change up">↑ 较第一讲 +5%</div>
+        </div>
+      </div>
+
+      <div class="ai-insight" style="margin-bottom:24px">
+        <div class="ai-header">
+          <div class="ai-avatar">🐴</div>
+          湘小马 · 综合学情分析
+        </div>
+        <p><strong>整体评价：</strong>本学期前两讲教学效果良好。学生课堂参与度持续提升，从第一讲的 84% 上升至 92%，说明互动式教学设计有效激发了学习兴趣。课后任务完成率稳定在 87% 以上，少数未完成学生主要集中在转专业和请假同学。</p>
+        <p style="margin-top:10px"><strong>重点关注：</strong>第二讲"毛泽东思想的形成和发展"中，关于"农村包围城市、武装夺取政权"道路的选择依据，正确率仅为 54%，建议在第三讲中通过案例对比加深理解。</p>
+        <p style="margin-top:10px"><strong>教学建议：</strong>第三讲可增加小组讨论环节，让学生结合前两讲内容进行知识迁移，同时利用"三大法宝"的框架分析当代社会治理案例，增强理论联系实际的能力。</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div class="analysis-card">
+          <h4>📊 各讲正确率趋势</h4>
+          <div style="display:flex;align-items:end;gap:12px;height:120px;padding:12px 0">
+            <div style="flex:1;text-align:center">
+              <div style="background:var(--vermillion);border-radius:6px 6px 0 0;height:65%;margin:0 8px"></div>
+              <div style="font-size:.72rem;margin-top:6px;color:var(--ink-muted)">第一讲</div>
+              <div style="font-size:.85rem;font-weight:700">65%</div>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="background:var(--gold);border-radius:6px 6px 0 0;height:78%;margin:0 8px"></div>
+              <div style="font-size:.72rem;margin-top:6px;color:var(--ink-muted)">第二讲</div>
+              <div style="font-size:.85rem;font-weight:700">78%</div>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="background:var(--jade);border-radius:6px 6px 0 0;height:85%;margin:0 8px;opacity:.5"></div>
+              <div style="font-size:.72rem;margin-top:6px;color:var(--ink-muted)">第三讲</div>
+              <div style="font-size:.85rem;font-weight:700">—</div>
+            </div>
+          </div>
+        </div>
+        <div class="analysis-card">
+          <h4>🎯 知识点掌握热力图</h4>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px">
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(46,125,107,.15);color:var(--jade)">马克思主义中国化<br><strong>92%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(46,125,107,.1);color:var(--jade)">毛泽东思想<br><strong>85%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(196,154,60,.15);color:var(--gold)">革命道路理论<br><strong>68%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(184,52,46,.1);color:var(--vermillion)">三大法宝<br><strong>54%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(46,125,107,.15);color:var(--jade)">群众路线<br><strong>88%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(46,125,107,.1);color:var(--jade)">实事求是<br><strong>82%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(196,154,60,.1);color:var(--gold)">独立自主<br><strong>72%</strong></div>
+            <div style="padding:10px;border-radius:6px;text-align:center;font-size:.72rem;background:rgba(46,125,107,.08);color:var(--ink-muted)">待评估<br><strong>—</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AI PANEL -->
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-header">
+    <div class="ai-panel-avatar">🐴</div>
+    <div class="ai-panel-info">
+      <h3>湘小马</h3>
+      <p>AI 思政教学助手 · 在线</p>
+    </div>
+    <button class="ai-panel-close" onclick="toggleAI()">✕</button>
+  </div>
+  <div class="ai-messages" id="aiMessages">
+    <div class="ai-msg bot">
+      <div class="msg-avatar">🐴</div>
+      <div class="bubble">陈老师好！我是湘小马 🐴 您的 AI 思政教学助手。我可以帮您：<br><br>• 分析学生答题数据，发现知识薄弱点<br>• 生成课堂互动题目和讨论话题<br>• 提供教学建议和案例推荐<br>• 批改主观题并给出参考评分<br><br>有什么需要帮忙的吗？</div>
+    </div>
+  </div>
+  <div class="ai-input-area">
+    <input class="ai-input" id="aiInput" placeholder="向湘小马提问..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+    <button class="ai-send" onclick="sendAIMessage()">↑</button>
+  </div>
+</div>
+
+<!-- AI FAB -->
+<button class="ai-fab" id="aiFab" onclick="toggleAI()">
+  🐴
+  <span class="fab-label">问湘小马</span>
+</button>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-publish">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>发布内容</h2>
+      <button class="modal-close" onclick="closeModal('publish')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">内容类型</label>
+        <select class="form-select">
+          <option>课前学习资料</option>
+          <option>课堂互动问题</option>
+          <option>课后学习任务</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">标题</label>
+        <input class="form-input" placeholder="输入标题...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">内容描述</label>
+        <textarea class="form-textarea" placeholder="输入详细描述..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">附件上传</label>
+        <div class="upload-zone" style="padding:24px">
+          <div class="icon" style="font-size:1.5rem">📤</div>
+          <p style="font-size:.78rem">点击或拖拽上传文件</p>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="topbar-btn ghost" onclick="closeModal('publish')">取消</button>
+        <button class="topbar-btn primary" onclick="closeModal('publish')">发布</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-material">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>上传学习资料</h2>
+      <button class="modal-close" onclick="closeModal('material')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">资料类型</label>
+        <select class="form-select">
+          <option>📄 文本资料（PDF/Word/PPT）</option>
+          <option>🎬 视频资料（MP4）</option>
+          <option>🎧 音频资料（MP3/WAV）</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">资料标题</label>
+        <input class="form-input" placeholder="输入资料标题...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">学习要求</label>
+        <textarea class="form-textarea" placeholder="说明学生需要完成的学习要求..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">截止时间</label>
+        <input class="form-input" type="datetime-local">
+      </div>
+      <div class="form-actions">
+        <button class="topbar-btn ghost" onclick="closeModal('material')">取消</button>
+        <button class="topbar-btn primary" onclick="closeModal('material')">上传发布</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-task">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>发布课后任务</h2>
+      <button class="modal-close" onclick="closeModal('task')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">任务类型</label>
+        <select class="form-select">
+          <option>个人作业</option>
+          <option>小组任务</option>
+          <option>实践报告</option>
+          <option>在线测验</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">任务标题</label>
+        <input class="form-input" placeholder="输入任务标题...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">任务要求</label>
+        <textarea class="form-textarea" placeholder="详细描述任务要求、评分标准等..."></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group">
+          <label class="form-label">截止时间</label>
+          <input class="form-input" type="datetime-local">
+        </div>
+        <div class="form-group">
+          <label class="form-label">分值</label>
+          <input class="form-input" type="number" placeholder="100" value="100">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="topbar-btn ghost" onclick="closeModal('task')">取消</button>
+        <button class="topbar-btn primary" onclick="closeModal('task')">发布任务</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Page switching
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+  
+  const titles = {
+    dashboard: '教学概览',
+    preclass: '课前资料',
+    inclass: '课堂互动',
+    postclass: '课后任务',
+    works: '学生作品',
+    analysis: '学情分析'
+  };
+  document.getElementById('pageTitle').textContent = titles[page] || page;
+  
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('mobile-open');
+}
+
+// Option selection
+function selectOption(btn, qId) {
+  const card = document.getElementById(qId);
+  card.querySelectorAll('.option-btn').forEach(b => {
+    b.classList.remove('selected', 'correct', 'wrong');
+  });
+  btn.classList.add('selected');
+}
+
+// Submit answer
+function submitAnswer(qId) {
+  const card = document.getElementById(qId);
+  const selected = card.querySelector('.option-btn.selected');
+  if (!selected && qId === 'q1') {
+    alert('请先选择一个选项');
+    return;
+  }
+  
+  // Simulate feedback
+  if (qId === 'q1') {
+    card.querySelectorAll('.option-btn').forEach(b => {
+      if (b.textContent.includes('统一战线、武装斗争、党的建设')) {
+        b.classList.add('correct');
+      } else if (b.classList.contains('selected') && !b.textContent.includes('统一战线、武装斗争、党的建设')) {
+        b.classList.add('wrong');
+      }
+    });
+  }
+  
+  // Show success feedback
+  const btn = card.querySelector('.q-btn.primary');
+  btn.textContent = '✓ 已提交';
+  btn.style.background = 'var(--jade)';
+  btn.disabled = true;
+}
+
+// Show analysis
+function showAnalysis(qId) {
+  // Scroll to analysis panel on mobile
+  document.querySelector('.analysis-panel').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Live chart animation
+function animateChart() {
+  const fills = document.querySelectorAll('#liveChart .bar-fill');
+  fills.forEach(fill => {
+    const w = fill.style.width;
+    fill.style.width = '0%';
+    setTimeout(() => { fill.style.width = w; }, 100);
+  });
+}
+setInterval(() => {
+  const fills = document.querySelectorAll('#liveChart .bar-fill');
+  const newWidths = [
+    Math.floor(Math.random() * 10 + 14) + '%',
+    Math.floor(Math.random() * 10 + 58) + '%',
+    Math.floor(Math.random() * 8 + 10) + '%',
+    Math.floor(Math.random() * 6 + 6) + '%'
+  ];
+  fills.forEach((fill, i) => {
+    fill.style.width = newWidths[i];
+    fill.textContent = newWidths[i];
+  });
+}, 5000);
+
+// AI Panel
+function toggleAI() {
+  document.getElementById('aiPanel').classList.toggle('open');
+}
+
+// AI Chat
+const aiResponses = {
+  '分析': '根据当前答题数据分析：\n\n• 62% 的同学掌握了"三大法宝"的核心概念\n• 主要混淆点在于"三大法宝"与"工农武装割据三要素"的区别\n• 建议课堂上通过对比表格进行辨析\n\n需要我生成一份对比分析的课堂材料吗？',
+  '题目': '好的，我为您生成一道课堂互动题：\n\n**讨论题：**\n请同学们思考：如果把新民主主义革命的"三大法宝"比作一棵大树，统一战线、武装斗争和党的建设分别对应树的哪个部分？请说明理由。\n\n这道题可以帮助学生用类比的方式深入理解三者的内在联系。',
+  '建议': '基于学情数据，我有以下教学建议：\n\n1. **强化对比教学**：将易混淆概念制作成对比表格\n2. **增加案例分析**：用具体历史事件阐释抽象理论\n3. **小组讨论**：让学生用自己的语言解释核心概念\n4. **即时反馈**：课堂上多设置小测验，及时发现理解偏差',
+  '批改': '我可以帮您批改主观题。请将学生回答文本发送给我，我会从以下几个维度进行评分：\n\n• 观点准确性（40%）\n• 论证逻辑性（30%）\n• 理论联系实际（20%）\n• 语言表达（10%）\n\n请发送需要批改的学生回答。',
+  default: '我理解您的问题。作为 AI 思政教学助手，我可以帮您：\n\n1. 分析学情数据，发现教学薄弱点\n2. 生成互动题目和讨论话题\n3. 提供教学策略建议\n4. 协助批改主观题\n\n请告诉我您具体需要哪方面的帮助？'
+};
+
+function sendAIMessage() {
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  const messages = document.getElementById('aiMessages');
+  
+  // User message
+  messages.innerHTML += `
+    <div class="ai-msg user">
+      <div class="msg-avatar">师</div>
+      <div class="bubble">${text}</div>
+    </div>
+  `;
+  
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Typing indicator
+  messages.innerHTML += `
+    <div class="ai-msg bot" id="typing">
+      <div class="msg-avatar">🐴</div>
+      <div class="bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>
+    </div>
+  `;
+  messages.scrollTop = messages.scrollHeight;
+  
+  // AI response
+  setTimeout(() => {
+    document.getElementById('typing')?.remove();
+    let response = aiResponses.default;
+    for (const [key, val] of Object.entries(aiResponses)) {
+      if (key !== 'default' && text.includes(key)) {
+        response = val;
+        break;
+      }
+    }
+    messages.innerHTML += `
+      <div class="ai-msg bot">
+        <div class="msg-avatar">🐴</div>
+        <div class="bubble">${response.replace(/\n/g, '<br>')}</div>
+      </div>
+    `;
+    messages.scrollTop = messages.scrollHeight;
+  }, 1200 + Math.random() * 800);
+}
+
+// Modals
+function openModal(id) {
+  document.getElementById('modal-' + id).classList.add('show');
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('show');
+}
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+});
+
+// Init
+animateChart();
+</script>
+</body>
+</html>
