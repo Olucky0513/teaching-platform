@@ -622,12 +622,12 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
       <button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('mobile-open')">☰</button>
       <div>
         <div class="topbar-title" id="pageTitle">教学概览</div>
-        <div class="topbar-sub" id="pageSub">2026年秋季学期 · 毛泽东思想和中国特色社会主义理论体系概论</div>
+        <div class="topbar-sub" id="pageSub">思政智教 · 全部课程专题已开放</div>
       </div>
     </div>
     <div class="topbar-right">
       <button class="topbar-btn ghost" onclick="openModal('publish')">＋ 发布内容</button>
-      <button class="topbar-btn primary" onclick="toggleAI()">🐴 湘小马</button>
+      <button class="topbar-btn primary" onclick="toggleAI()">🐴 湘小智</button>
     </div>
   </header>
 
@@ -638,18 +638,18 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
       <div class="stats-row">
         <div class="stat-card">
           <div class="stat-label">已发布资料</div>
-          <div class="stat-value red">12</div>
-          <div class="stat-change up">↑ 本周新增 3 份</div>
+          <div class="stat-value red">68</div>
+          <div class="stat-change up">↑ 涵盖全部课程</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">课堂互动次数</div>
-          <div class="stat-value gold">48</div>
-          <div class="stat-change up">↑ 较上周 +22%</div>
+          <div class="stat-value gold">126</div>
+          <div class="stat-change up">↑ 全部专题已开放</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">任务完成率</div>
           <div class="stat-value jade">87%</div>
-          <div class="stat-change up">↑ 较上周 +5%</div>
+          <div class="stat-change up">↑ 持续跟进中</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">活跃学生</div>
@@ -658,53 +658,177 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
         </div>
       </div>
 
-      <div class="section-header">
-        <div class="section-title">📋 <span class="accent">教学日程</span></div>
+<div class="section-header">
+        <div class="section-title">📋 <span class="accent">课程专题总览</span></div>
       </div>
-      <div class="timeline">
-        <div class="timeline-item done">
-          <div class="timeline-card">
-            <h4>第一讲：马克思主义中国化的历史进程</h4>
-            <p>已完成课堂互动与课后任务收集</p>
-            <div class="timeline-meta">
-              <span>📅 9月2日（周二）</span><span>👥 168人参与</span><span>✅ 已结束</span>
-            </div>
-          </div>
-        </div>
-        <div class="timeline-item done">
-          <div class="timeline-card">
-            <h4>第二讲：毛泽东思想的形成和发展</h4>
-            <p>已完成课堂互动与课后任务收集</p>
-            <div class="timeline-meta">
-              <span>📅 9月4日（周四）</span><span>👥 165人参与</span><span>✅ 已结束</span>
-            </div>
-          </div>
-        </div>
-        <div class="timeline-item current">
-          <div class="timeline-card">
-            <h4>第三讲：新民主主义革命理论</h4>
-            <p>课前资料已发布，课堂互动待开始</p>
-            <div class="timeline-meta">
-              <span>📅 9月9日（周二）· 今日</span><span>📚 3份资料已发布</span><span style="color:var(--vermillion)">🔴 待上课</span>
-            </div>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-card">
-            <h4>第四讲：社会主义改造理论</h4>
-            <p>待发布课前资料</p>
-            <div class="timeline-meta">
-              <span>📅 9月11日（周四）</span><span>⏳ 未开始</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ===== PRE-CLASS ===== -->
+      <style>
+        .topic-card{
+          padding:10px 14px;border-radius:var(--radius);background:#fff;
+          border:1px solid var(--paper-deep);font-size:.82rem;cursor:pointer;
+          transition:var(--transition);display:flex;align-items:center;justify-content:space-between;
+        }
+        .topic-card:hover{border-color:var(--vermillion);box-shadow:var(--shadow-sm)}
+        .topic-card.highlight{border-color:var(--vermillion);background:rgba(184,52,46,.03)}
+        .topic-status{
+          font-size:.65rem;padding:2px 8px;border-radius:10px;font-weight:600;flex-shrink:0;
+        }
+        .topic-status.open{background:rgba(46,125,107,.1);color:var(--jade)}
+      </style>
+
+      <!-- 习近平新时代中国特色社会主义思想概论 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:var(--vermillion);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--vermillion);border-radius:2px"></span>
+          习近平新时代中国特色社会主义思想概论
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. 导论 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 新时代坚持和发展中国特色社会主义 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 以中国式现代化全面推进中华民族伟大复兴 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 坚持党的全面领导 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 坚持以人民为中心 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card highlight" onclick="switchPage('preclass')">6. 全面深化改革开放 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 推动高质量发展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. 社会主义现代化建设的教育、科技、人才战略 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">9. 发展全过程人民民主 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">10. 全面依法治国 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">11. 建设社会主义文化强国 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">12. 以保障和改善民生为重点加强社会建设 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">13. 建设社会主义生态文明 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">14. 维护和塑造国家安全 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">15. 建设巩固国防和强大人民军队 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">16. 坚持"一国两制"和推进祖国完全统一 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">17. 中国特色大国外交和推动构建人类命运共同体 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">18. 全面从严治党 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div>
+
+      <!-- 毛泽东思想和中国特色社会主义理论体系概论 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--gold);border-radius:2px"></span>
+          毛泽东思想和中国特色社会主义理论体系概论
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. 马克思主义中国化时代化的历史进程与理论成果 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 毛泽东思想及其历史地位 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 新民主主义革命理论 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 社会主义改造理论 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 社会主义建设道路初步探索的理论成果 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">6. 中国特色社会主义理论体系的形成发展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 邓小平理论 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. "三个代表"重要思想 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">9. 科学发展观 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div>
+
+      <!-- 思想道德与法治 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:var(--jade);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--jade);border-radius:2px"></span>
+          思想道德与法治
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. 担当复兴大任 成就时代新人 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 树立高尚人生目的 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 保持积极进取的人生态度 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 创造有意义的人生 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 理想信念的内涵及重要性 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">6. 坚定信仰信念信任信心 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 在实现中国梦的实践中放飞青春梦想 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. 中国精神是兴国强国之魂 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">9. 做新时代的忠诚爱国者 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">10. 让改革创新成为青春远航的动力 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">11. 全体人民共同的价值追求 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">12. 坚定社会主义核心价值观自信 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">13. 积极践行社会主义核心价值观 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">14. 社会主义道德的核心与原则 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">15. 吸收借鉴优秀道德成果 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">16. 投身崇德向善的道德实践 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">17. 社会主义法律的特征和运行 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">18. 坚持全面依法治国 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">19. 维护宪法权威 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">20. 自觉尊法学法守法用法 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div>
+
+      <!-- 形势与政策 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:var(--ink-light);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--ink-light);border-radius:2px"></span>
+          形势与政策
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. "十五五"时期是基本实现社会主义现代化夯实基础、全面发力的关键时期 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 加快建设以实体经济为支撑的现代化产业体系 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 在习近平法治思想指引下开创法治中国建设新局面 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 建设数字中国为推进中国式现代化提供有力支撑 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 把中华文化瑰宝保护好、传承好、传播好 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">6. 在高水平对外开放中推动贸易强国建设迈出新步伐 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 坚定不移推进祖国统一大业 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. 推动构建和平共处、总体稳定、均衡发展的大国关系格局 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div>
+
+      <!-- 马克思主义基本原理 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:var(--vermillion-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:var(--vermillion-dark);border-radius:2px"></span>
+          马克思主义基本原理
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. 努力学好用好马克思主义 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 马克思主义的创立与发展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 马克思主义唯物论 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 唯物辩证法的基本规律 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 唯物辩证法的总特征 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">6. 人类社会的存在与发展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 实践是认识的基础 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. 认识世界是为了改造世界 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">9. 真理和价值是人类活动的两大尺度 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">10. 社会历史发展的动力系统 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">11. 社会历史发展的主体力量 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">12. 在实践中探索社会主义的发展规律 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">13. 马克思劳动价值论及其当代价值 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">14. 马克思剩余价值理论与经济危机 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">15. 认识和把握科学社会主义基本原则 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">16. 垄断资本主义的形成及发展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">17. 资本主义上层建筑 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">18. 当代资本主义的变化与发展趋势 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">19. 资本主义与经济全球化 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">20. 共产主义社会的基本特征 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">21. 坚定共产主义理想信念 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">22. 社会主义五百年的历史进程 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">23. 实现共产主义的历史必然性与长期性 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div>
+
+      <!-- 中国近现代史纲要 -->
+      <div style="margin-bottom:28px">
+        <h3 style="font-size:.95rem;color:#6b5b3e;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <span style="display:inline-block;width:4px;height:18px;background:#6b5b3e;border-radius:2px"></span>
+          中国近现代史纲要
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+          <div class="topic-card" onclick="switchPage('preclass')">1. 历史是最好的教科书 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">2. 近代中国的磨难与抗争 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">3. 国家出路的早期探索 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">4. 辛亥革命的成与败 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">5. 中国人民在精神上由被动转为主动 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">6. 中国人民有了主心骨 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">7. 星星之火，可以燎原 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">8. 神圣的民族解放战争 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">9. 新民主主义革命的伟大胜利 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">10. 社会主义革命和建设的开展 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">11. 决定当代中国命运的关键一招 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">12. 建设社会主义现代化强国 <span class="topic-status open">开放中</span></div>
+          <div class="topic-card" onclick="switchPage('preclass')">13. 把握历史主动 坚定历史自信 <span class="topic-status open">开放中</span></div>
+        </div>
+      </div><!-- ===== PRE-CLASS ===== -->
     <div class="page" id="page-preclass">
       <div class="section-header">
-        <div class="section-title">📚 <span class="accent">课前学习资料</span> · 第三讲：新民主主义革命理论</div>
+        <div class="section-title">📚 <span class="accent">课前学习资料</span> · 第六专题：全面深化改革开放</div>
         <button class="topbar-btn primary" onclick="openModal('material')">＋ 上传资料</button>
       </div>
 
@@ -715,48 +839,63 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
       </div>
 
       <div class="materials-grid">
-        <div class="material-card" onclick="openModal('preview-text')">
+        <div class="material-card">
           <div class="material-thumb text">
             <span class="icon">📄</span>
             <span class="material-type">文本</span>
           </div>
           <div class="material-body">
-            <h4>新民主主义革命理论的形成背景</h4>
-            <p>详细介绍近代中国社会性质与主要矛盾，阐述新民主主义革命理论的历史必然性。</p>
+            <h4>习近平总书记关于改革开放和全面深化改革开放的重要论述</h4>
+            <p>系统梳理习近平总书记关于改革开放的重要讲话和指示精神，深入理解新时代全面深化改革的核心要义。</p>
           </div>
           <div class="material-footer">
             <div class="status"><span class="status-dot green"></span> 已发布</div>
-            <span>156人已读 · 平均阅读 12分钟</span>
+            <span>152人已读</span>
           </div>
         </div>
 
-        <div class="material-card" onclick="openModal('preview-video')">
-          <div class="material-thumb video">
-            <span class="play-btn">▶</span>
-            <span class="material-type">视频</span>
+        <div class="material-card">
+          <div class="material-thumb text">
+            <span class="icon">📄</span>
+            <span class="material-type">文本</span>
           </div>
           <div class="material-body">
-            <h4>纪录片：《百年风华》第三集</h4>
-            <p>通过珍贵历史影像，回顾新民主主义革命时期的伟大历程与关键转折。</p>
+            <h4>中央各类会议关于改革开放和全面深化改革开放的文章</h4>
+            <p>汇集中央重要会议精神与政策文件，全面了解改革开放的战略部署与实践路径。</p>
           </div>
           <div class="material-footer">
             <div class="status"><span class="status-dot green"></span> 已发布</div>
-            <span>142人已看 · 时长 28分钟</span>
+            <span>148人已读</span>
           </div>
         </div>
 
-        <div class="material-card" onclick="openModal('preview-audio')">
-          <div class="material-thumb audio">
-            <span class="icon" style="color:rgba(255,255,255,.7)">🎧</span>
-            <span class="material-type">音频</span>
+        <div class="material-card">
+          <div class="material-thumb text">
+            <span class="icon">📄</span>
+            <span class="material-type">文本</span>
           </div>
           <div class="material-body">
-            <h4>经典诵读：《论人民民主专政》节选</h4>
-            <p>毛泽东同志经典著作的有声朗读，配合注释与背景解析。</p>
+            <h4>省委各类会议关于改革开放和深化改革开放的文章</h4>
+            <p>省级层面推动改革开放的实践探索与经验总结，结合地方实际理解改革落地路径。</p>
           </div>
           <div class="material-footer">
-            <div class="status"><span class="status-dot yellow"></span> 部分已读</div>
-            <span>98人已听 · 时长 15分钟</span>
+            <div class="status"><span class="status-dot green"></span> 已发布</div>
+            <span>145人已读</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-thumb text">
+            <span class="icon">📊</span>
+            <span class="material-type">数据</span>
+          </div>
+          <div class="material-body">
+            <h4>教学专题清单</h4>
+            <p>本学期全部课程教学专题汇总表，涵盖习近平新时代中国特色社会主义思想概论等6门课程的完整教学目录。</p>
+          </div>
+          <div class="material-footer">
+            <div class="status"><span class="status-dot green"></span> 已发布</div>
+            <span>全部学生已查阅</span>
           </div>
         </div>
       </div>
@@ -846,7 +985,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
           <div class="ai-insight">
             <div class="ai-header">
               <div class="ai-avatar">🐴</div>
-              湘小马 · 学情洞察
+              湘小智 · 学情洞察
             </div>
             <p><strong>分析结论：</strong>62% 的同学选择了正确答案 B（统一战线、武装斗争、党的建设），说明多数同学对核心概念掌握较好。但仍有 18% 的同学混淆了"三大法宝"与"工农武装割据"的内容（选项 A），建议课堂上重点辨析两者的区别。选项 C 和 D 分别涉及毛泽东思想活的灵魂和党的三大优良作风，属于高频混淆知识点。</p>
           </div>
@@ -906,7 +1045,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <div class="task-progress-bar" style="width:76%"></div>
           </div>
           <div class="task-footer">
-            <span class="task-deadline">⏰ 截止：2026年9月16日 23:59</span>
+            <span class="task-deadline">⏰ 状态：开放中</span>
             <button class="task-action" onclick="switchPage('works')">查看作品 →</button>
           </div>
         </div>
@@ -937,7 +1076,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <div class="task-progress-bar" style="width:82%"></div>
           </div>
           <div class="task-footer">
-            <span class="task-deadline">⏰ 截止：2026年9月18日 23:59</span>
+            <span class="task-deadline">⏰ 状态：开放中</span>
             <button class="task-action" onclick="switchPage('works')">查看作品 →</button>
           </div>
         </div>
@@ -968,7 +1107,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <div class="task-progress-bar" style="width:96%"></div>
           </div>
           <div class="task-footer">
-            <span class="task-deadline">⏰ 已于 9月7日 截止</span>
+            <span class="task-deadline">⏰ 状态：开放中</span>
             <button class="task-action">查看报告</button>
           </div>
         </div>
@@ -993,7 +1132,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <h4>韶山冲红色基地走访报告</h4>
             <p>深入分析了毛泽东同志故居的历史意义...</p>
           </div>
-          <div class="work-author"><div class="mini-avatar">李</div>李明辉 · 9月8日提交</div>
+          <div class="work-author"><div class="mini-avatar">李</div>李明辉 </div>
         </div>
         <div class="work-card">
           <div class="work-preview" style="background:linear-gradient(135deg,#2c3e50,#3d566e)">🎬<span class="work-score">92分</span></div>
@@ -1001,7 +1140,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <h4>小组研讨：从延安精神看当代青年担当</h4>
             <p>第三小组 5 分钟研讨视频，观点鲜明...</p>
           </div>
-          <div class="work-author"><div class="mini-avatar">王</div>王思雨（组长）· 9月7日提交</div>
+          <div class="work-author"><div class="mini-avatar">王</div>王思雨（组长）</div>
         </div>
         <div class="work-card">
           <div class="work-preview" style="background:linear-gradient(135deg,#1a3a2a,#2e5e45)">📄<span class="work-score">88分</span></div>
@@ -1009,7 +1148,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <h4>遵义会议会址实地调研报告</h4>
             <p>结合新民主主义革命转折点进行分析...</p>
           </div>
-          <div class="work-author"><div class="mini-avatar">张</div>张文博 · 9月8日提交</div>
+          <div class="work-author"><div class="mini-avatar">张</div>张文博 </div>
         </div>
         <div class="work-card">
           <div class="work-preview" style="background:linear-gradient(135deg,#f5e6d3,#e8d5be)">📄<span class="work-score">90分</span></div>
@@ -1017,7 +1156,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <h4>井冈山革命根据地走访感悟</h4>
             <p>从工农武装割据理论出发，分析井冈山...</p>
           </div>
-          <div class="work-author"><div class="mini-avatar">刘</div>刘佳怡 · 9月7日提交</div>
+          <div class="work-author"><div class="mini-avatar">刘</div>刘佳怡 </div>
         </div>
         <div class="work-card">
           <div class="work-preview" style="background:linear-gradient(135deg,#2c3e50,#3d566e)">🎬<span class="work-score">94分</span></div>
@@ -1025,7 +1164,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
             <h4>小组研讨：统一战线思想的现代价值</h4>
             <p>第一小组 4 分钟研讨视频，论证充分...</p>
           </div>
-          <div class="work-author"><div class="mini-avatar">赵</div>赵一鸣（组长）· 9月6日提交</div>
+          <div class="work-author"><div class="mini-avatar">赵</div>赵一鸣（组长）</div>
         </div>
         <div class="work-card" style="opacity:.5">
           <div class="work-preview" style="background:var(--paper-deep)">⏳</div>
@@ -1066,7 +1205,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
       <div class="ai-insight" style="margin-bottom:24px">
         <div class="ai-header">
           <div class="ai-avatar">🐴</div>
-          湘小马 · 综合学情分析
+          湘小智 · 综合学情分析
         </div>
         <p><strong>整体评价：</strong>本学期前两讲教学效果良好。学生课堂参与度持续提升，从第一讲的 84% 上升至 92%，说明互动式教学设计有效激发了学习兴趣。课后任务完成率稳定在 87% 以上，少数未完成学生主要集中在转专业和请假同学。</p>
         <p style="margin-top:10px"><strong>重点关注：</strong>第二讲"毛泽东思想的形成和发展"中，关于"农村包围城市、武装夺取政权"道路的选择依据，正确率仅为 54%，建议在第三讲中通过案例对比加深理解。</p>
@@ -1118,7 +1257,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
   <div class="ai-panel-header">
     <div class="ai-panel-avatar">🐴</div>
     <div class="ai-panel-info">
-      <h3>湘小马</h3>
+      <h3>湘小智</h3>
       <p>AI 思政教学助手 · 在线</p>
     </div>
     <button class="ai-panel-close" onclick="toggleAI()">✕</button>
@@ -1126,11 +1265,11 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
   <div class="ai-messages" id="aiMessages">
     <div class="ai-msg bot">
       <div class="msg-avatar">🐴</div>
-      <div class="bubble">陈老师好！我是湘小马 🐴 您的 AI 思政教学助手。我可以帮您：<br><br>• 分析学生答题数据，发现知识薄弱点<br>• 生成课堂互动题目和讨论话题<br>• 提供教学建议和案例推荐<br>• 批改主观题并给出参考评分<br><br>有什么需要帮忙的吗？</div>
+      <div class="bubble">陈老师好！我是湘小智 🐴 您的 AI 思政教学助手。我可以帮您：<br><br>• 分析学生答题数据，发现知识薄弱点<br>• 生成课堂互动题目和讨论话题<br>• 提供教学建议和案例推荐<br>• 批改主观题并给出参考评分<br><br>有什么需要帮忙的吗？</div>
     </div>
   </div>
   <div class="ai-input-area">
-    <input class="ai-input" id="aiInput" placeholder="向湘小马提问..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+    <input class="ai-input" id="aiInput" placeholder="向湘小智提问..." onkeydown="if(event.key==='Enter')sendAIMessage()">
     <button class="ai-send" onclick="sendAIMessage()">↑</button>
   </div>
 </div>
@@ -1138,7 +1277,7 @@ h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:700;line-height:1.3}
 <!-- AI FAB -->
 <button class="ai-fab" id="aiFab" onclick="toggleAI()">
   🐴
-  <span class="fab-label">问湘小马</span>
+  <span class="fab-label">问湘小智</span>
 </button>
 
 <!-- MODALS -->
